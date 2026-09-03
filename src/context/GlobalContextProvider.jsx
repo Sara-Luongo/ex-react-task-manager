@@ -4,18 +4,23 @@ import { createContext } from "react";
 
 
 /*creazione context*/
-const GlobalContext = createContext();
+export const GlobalContext = createContext();
 const apiUrl = import.meta.env.VITE_URL;
 
 /* creazione provider*/
-function GlobalContextProvider({ children }) {
+export function GlobalContextProvider({ children }) {
 
     const [memoTaskList, setMemoTaskList] = useState([])
 
     async function getList() {
-        const response = await fetch(`${apiUrl}/tasks`);
-        const data = await response.json()
-        setMemoTaskList(data)
+        try {
+            const response = await fetch(`${apiUrl}/tasks`);
+            const data = await response.json()
+            setMemoTaskList(data)
+        } catch (error) {
+            console.error("Errore nel recupero dei task:", error);
+        }
+
     };
 
     useEffect(() => {
@@ -23,9 +28,8 @@ function GlobalContextProvider({ children }) {
     }, [])
     console.log(memoTaskList);
 
-    return <GlobalContext.Provider value={memoTaskList}>
+    return <GlobalContext.Provider value={{ memoTaskList }}>
         {children}
     </GlobalContext.Provider>
 };
 
-export default GlobalContextProvider
