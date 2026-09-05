@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
+import useTask from "../hooks/useTask";
 
 
 /*creazione context*/
@@ -9,26 +10,9 @@ const apiUrl = import.meta.env.VITE_URL;
 
 /* creazione provider*/
 export function GlobalContextProvider({ children }) {
+    const { tasks, addTask, removeTask, updateTask } = useTask();
 
-    const [memoTaskList, setMemoTaskList] = useState([])
-
-    async function getList() {
-        try {
-            const response = await fetch(`${apiUrl}/tasks`);
-            const data = await response.json()
-            setMemoTaskList(data)
-        } catch (error) {
-            console.error("Errore nel recupero dei task:", error);
-        }
-
-    };
-
-    useEffect(() => {
-        getList()
-    }, [])
-    console.log(memoTaskList);
-
-    return <GlobalContext.Provider value={{ memoTaskList }}>
+    return <GlobalContext.Provider value={{ tasks, addTask, removeTask, updateTask }}>
         {children}
     </GlobalContext.Provider>
 };

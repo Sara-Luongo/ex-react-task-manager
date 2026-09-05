@@ -3,8 +3,14 @@ import { Link, NavLink } from "react-router-dom";
 function NavBar() {
     return (<>
         <nav>
-            <NavLink to="/add-tasks">task</NavLink >
-            <NavLink to="/add-list">tasklist</NavLink>
+            <ul>
+                <li>
+                    <NavLink to="/add-tasks">add task</NavLink >
+                </li>
+                <li>
+                    <NavLink to="/add-list">tasklist</NavLink>
+                </li>
+            </ul>
         </nav>
     </>)
 

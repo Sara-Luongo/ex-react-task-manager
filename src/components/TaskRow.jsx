@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 function TaskRow({ task }) {
     let rowColor = 'trasparent'
@@ -13,7 +14,11 @@ function TaskRow({ task }) {
 
     return (<>
         <tr>
-            <td>{task.title}</td>
+            <td>
+                <Link to={`/task/${task.id}`}>
+                    {task.title}
+                </Link>
+            </td>
             <td style={{ backgroundColor: rowColor }}>{task.status}</td>
             <td>{task.createdAt}</td>
         </tr>

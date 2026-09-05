@@ -4,9 +4,9 @@ import TaskRow from "../components/TaskRow";
 
 function TaskList() {
 
-    const { memoTaskList } = useContext(GlobalContext);
+    const { tasks } = useContext(GlobalContext);
 
-    console.log("Dati ricevuti in TaskList:", memoTaskList);
+    console.log("Dati ricevuti in TaskList:", tasks);
 
     return (<>
         <div>
@@ -20,7 +20,7 @@ function TaskList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {memoTaskList && memoTaskList.map(tasks => {
+                    {tasks && tasks.map(tasks => {
                         return <TaskRow key={tasks.id} task={tasks} />
                     })}
                 </tbody>
