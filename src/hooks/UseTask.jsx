@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { data } from "react-router-dom";
 
 function useTask() {
 
@@ -12,7 +13,7 @@ function useTask() {
             const data = await response.json()
             setTasks(data)
         } catch (error) {
-            console.error('errore nel recupero dei task', error)
+            console.error(data.message)
         }
 
     };
@@ -42,16 +43,57 @@ function useTask() {
         }
     }
 
-    function removeTask() {
+    async function removeTask(id) {
+        const response = await fetch(`${apiUrl}/tasks/${id}`, {
+            method: "DELETE",
 
+        })
+        const data = await response.json()
+        if (data.success === false) {
+            throw new Error(data.message);
+        }
+        const taskFiltered = tasks.filter(task => {
+            return task.id !== id
+
+
+        })
+        setTasks(taskFiltered)
     }
 
-    function updateTask() {
 
+
+
+    async function updateTask(updatedTask) {
+        const response = await fetch(`${apiUrl}/tasks/${updatedTask.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: updatedTask.title,
+                description: updatedTask.description,
+                status: updatedTask.status
+            })
+        })
+        const data = await response.json()
+
+        if (data.success === true) {
+            const mappedTask = tasks.map(task => {
+                if (task.id === updatedTask.id) {
+                    return data.task
+                }
+                return task
+            })
+            setTasks(mappedTask)
+        }
+        if (data.success === false) {
+            throw new Error(data.message);
+        }
     }
+
 
 
     return { tasks, addTask, removeTask, updateTask }
-};
+}
 
 export default useTask

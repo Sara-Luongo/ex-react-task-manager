@@ -55,7 +55,7 @@ function AddTask() {
                     <textarea ref={description} placeholder="description"></textarea>
                     <select ref={statusRef}>
                         <option value="/">scegli stato task</option>
-                        <option value="Do">Do</option>
+                        <option value="Done">Done</option>
                         <option value="Doing">Doing</option>
                         <option value="To Do">To Do</option>
                     </select>
